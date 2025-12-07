@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+html {
+    background-color: #000;
+    
+    color: #fff;
+    font-family: "Roboto", sans-serif;
+    box-sizing: border-box;
+}
+
+/* Tùy chỉnh chung cho một số thành phần */
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+.horizontal-justify {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.button {
+    user-select: none;
+    cursor: pointer;
+}
+
+.logo {
+    width: 45px;
+    margin-right: 1vw;
+}
+
+/* Nút điều hướng */
+.navigator {
+    font-size: 14px;
+    padding: 7px 20px;
+    background-color: #1F1F1F;
+    border-radius: 50px;
+    margin: 0px 5px;
+}
+
+.navigator img { /* Các biểu tượng trong các nút điều hướng */
+    width: 25px;
+    margin-right: 5px;
+    margin-left: -5px;
+}
+
+/* Tùy chỉnh riêng cho nút tìm kiếm */
+.navigator.search {
+    border-radius: 100px;
+    padding: 7px;
+}
+.navigator.search img {
+    margin: 0;
+}
+
+/* Thông tin User */
+.username {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    overflow: hidden;
+    object-fit: cover;
+}
