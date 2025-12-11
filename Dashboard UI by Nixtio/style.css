@@ -1,67 +1,213 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+* {
+	box-sizing: border-box;
+}
 html {
-    background-color: #000;
-    
-    color: #fff;
-    font-family: "Roboto", sans-serif;
-    box-sizing: border-box;
+	background-color: #000;
+
+	color: #fff;
+	font-family: "Roboto", sans-serif;
+}
+
+body {
+	display: grid;
+	height: 100vh;
+	margin: 0;
+
+	grid-template-columns: 80px 1fr;
 }
 
 /* Tùy chỉnh chung cho một số thành phần */
 .vertical-align {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 }
 .horizontal-justify {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 .button {
-    user-select: none;
-    cursor: pointer;
+	user-select: none;
+	cursor: pointer;
+}
+
+/* Thanh bên */
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 20px;
+}
+
+.side-btn:not(:last-child) {
+	margin-bottom: 15px;
+}
+
+.side-btn,
+.add-btn {
+	width: 50px;
+	height: 50px;
+	background-color: #212121;
+	border-radius: 50px;
+}
+
+.side-btn img,
+.add-btn img {
+	width: 25px;
 }
 
 .logo {
-    width: 45px;
-    margin-right: 1vw;
+	width: 45px;
+}
+
+.body {
+	display: flex;
+	flex-direction: column;
+}
+
+/* Thanh tiêu đề */
+.header {
+	padding: 15px;
 }
 
 /* Nút điều hướng */
 .navigator {
-    font-size: 14px;
-    padding: 7px 20px;
-    background-color: #1F1F1F;
-    border-radius: 50px;
-    margin: 0px 5px;
+	font-size: 14px;
+	padding: 7px 20px;
+	background-color: #1f1f1f;
+	border-radius: 50px;
+	margin: 0px 5px;
 }
 
-.navigator img { /* Các biểu tượng trong các nút điều hướng */
-    width: 25px;
-    margin-right: 5px;
-    margin-left: -5px;
+.navigator img {
+	/* Các biểu tượng trong các nút điều hướng */
+	width: 25px;
+	margin-right: 5px;
+	margin-left: -5px;
 }
 
 /* Tùy chỉnh riêng cho nút tìm kiếm */
 .navigator.search {
-    border-radius: 100px;
-    padding: 7px;
+	border-radius: 100px;
+	padding: 7px;
 }
 .navigator.search img {
-    margin: 0;
+	margin: 0;
 }
 
 /* Thông tin User */
 .username {
-    display: flex;
-    flex-direction: column;
-    margin-right: 10px;
+	display: flex;
+	flex-direction: column;
+	margin-right: 10px;
+	font-size: 14px;
+	text-align: right;
+	margin-right: 15px;
 }
 
 .avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 100px;
-    overflow: hidden;
-    object-fit: cover;
+	position: relative;
+}
+.avatar img {
+	width: 40px;
+	height: 40px;
+	border-radius: 100px;
+	object-fit: cover;
+}
+
+.avatar span {
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	width: 17px;
+	height: 17px;
+	border-radius: 50px;
+	background-color: red;
+	text-align: center;
+	font-size: 12px;
+}
+
+/* Tiêu đề và các nút chức năng của phần nội dung chính */
+.content-title {
+	margin: 30px 10px;
+}
+.content-title-name {
+	font-size: 30px;
+}
+
+.content-function {
+	padding: 15px 20px;
+	background-color: #1f1f1f;
+	border-radius: 50px;
+}
+.content-function:not(:last-child) {
+	margin-right: 10px;
+}
+.content-function img {
+	width: 20px;
+	height: 20px;
+	margin-left: 5px;
+}
+
+.content-function-compact {
+	padding: 15px;
+	background-color: #1f1f1f;
+	border-radius: 50px;
+}
+.content-function-compact img {
+	width: 20px;
+	height: 20px;
+}
+
+/* Phần nội dung chính */
+.content {
+	flex: 1;
+	display: grid;
+	gap: 20px; /* Khoảng cách giữa các ô */
+	/* 3 cột: 2 cột đầu bằng nhau, cột cuối rộng hơn một chút (tỷ lệ ước lượng) */
+	grid-template-columns: 1fr 1fr 1.3fr;
+	/* 2 hàng: Hàng dưới cao hơn hàng trên một chút */
+	grid-template-rows: 0.8fr 1fr;
+
+	/* BẢN ĐỒ VỊ TRÍ (QUAN TRỌNG NHẤT) */
+	grid-template-areas:
+		"card-1 card-2 card-4"
+		"card-3 card-3 card-4";
+}
+
+.content-items {
+	background-color: #1f1f1f;
+	border-radius: 50px;
+}
+.item-header {
+	padding: 12%;
+	font-size: 18px;
+}
+.item-header img {
+	width: 15px;
+	height: 15px;
+}
+
+.item-content-text-item {
+	line-height: 25px;
+	display: flex;
+	flex-direction: column;
+}
+.item-content-text-item img {
+	width: 20px;
+	height: 20px;
+	margin-bottom: 15px;
+}
+
+.big-text {
+	font-size: 45px;
+}
+.description-text {
+	font-size: 13px;
 }
