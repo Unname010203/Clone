@@ -23,3 +23,4 @@
 13. Toggle: https://www.svgrepo.com/svg/379694/toggle-switch?edit=true
 14. Dots 3 Horizontal: https://www.svgrepo.com/svg/491395/dots-3-horizontal?edit=true
 15. Arrow Down Filled Triangle: https://www.svgrepo.com/svg/108052/arrow-down-filled-triangle
+16. Triangle Filled: https://www.svgrepo.com/svg/486500/triangle-filled
