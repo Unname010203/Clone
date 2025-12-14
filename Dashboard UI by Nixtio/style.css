@@ -14,7 +14,7 @@ body {
 	height: 100vh;
 	margin: 0;
 
-	grid-template-columns: 80px 1fr;
+	grid-template-columns: 90px 1fr;
 }
 
 /* Tùy chỉnh chung cho một số thành phần */
@@ -42,7 +42,12 @@ body {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	align-items: center;
 	padding: 20px;
+}
+
+.sidebar-function {
+	width: fit-content;
 }
 
 .side-btn:not(:last-child) {
@@ -69,11 +74,14 @@ body {
 .body {
 	display: flex;
 	flex-direction: column;
+	overflow-y: auto;
 }
 
 /* Thanh tiêu đề */
 .header {
-	padding: 15px;
+	padding: 15px 15px 15px 0;
+	position: sticky;
+	top: 0;
 }
 
 /* Nút điều hướng */
