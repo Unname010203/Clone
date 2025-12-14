@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas Pill Chart</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        canvas {
+            background-color: #1a1a1a; /* Màu nền của biểu đồ */
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="myChart" width="800" height="400"></canvas>
+
+<script>
+    const canvas = document.getElementById('myChart');
+    const ctx = canvas.getContext('2d');
+
+    // 1. CẤU HÌNH MÀU SẮC & FONT
+    const COLORS = {
+        bg: '#1a1a1a',
+        white: '#ffffff',
+        green: '#96e667',
+        orange: '#ff9f43',
+        line: '#333333',
+        text: '#000000',
+        legendText: '#ffffff'
+    };
+
+    // 2. DỮ LIỆU BIỂU ĐỒ (Mô phỏng từ hình ảnh)
+    // topH: chiều cao pill trên, botH: chiều cao pill dưới
+    const data = [
+        { top: 52, topH: 80, topC: COLORS.white,  bot: 81, botH: 80, botC: COLORS.orange, dot: COLORS.green },
+        { top: 96, topH: 110, topC: COLORS.green, bot: 25, botH: 50, botC: COLORS.orange, dot: COLORS.white },
+        { top: 48, topH: 60, topC: COLORS.green,  bot: 51, botH: 70, botC: COLORS.white,  dot: COLORS.orange },
+        { top: 80, topH: 80, topC: COLORS.green,  bot: 49, botH: 60, botC: COLORS.orange, dot: COLORS.white },
+        { top: 34, topH: 50, topC: COLORS.orange, bot: 67, botH: 80, botC: COLORS.green,  dot: COLORS.white },
+        { top: 92, topH: 100, topC: COLORS.green, bot: 28, botH: 60, botC: COLORS.white,  dot: COLORS.orange },
+        { top: 58, topH: 60, topC: COLORS.green,  bot: 20, botH: 50, botC: COLORS.orange, dot: COLORS.white },
+        { top: 84, topH: 90, topC: COLORS.orange, bot: 39, botH: 70, botC: COLORS.green,  dot: COLORS.white },
+        { top: 36, topH: 50, topC: COLORS.white,  bot: 72, botH: 70, botC: COLORS.orange, dot: COLORS.green }
+    ];
+
+    // Cấu hình kích thước
+    const startX = 60;     // Vị trí bắt đầu x
+    const gapX = 80;       // Khoảng cách giữa các cột
+    const centerY = 180;   // Trục giữa (nơi đặt dấu chấm)
+    const pillWidth = 50;  // Độ rộng viên thuốc
+    const dotRadius = 8;   // Bán kính chấm tròn
+
+    // --- CÁC HÀM VẼ (HELPER FUNCTIONS) ---
+
+    // Hàm vẽ hình chữ nhật bo tròn (Pill)
+    function drawPill(x, y, width, height, color, textValue) {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        // Dùng roundRect (hỗ trợ trình duyệt mới) hoặc vẽ arc thủ công
+        // Ở đây bo góc = width/2 để tròn tuyệt đối
+        ctx.roundRect(x - width/2, y, width, height, width/2); 
+        ctx.fill();
+
+        // Vẽ số bên trong
+        ctx.fillStyle = COLORS.text;
+        ctx.font = "bold 16px Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(textValue, x, y + height/2);
+    }
+
+    // Hàm vẽ chấm tròn (Dot)
+    function drawDot(x, y, color) {
+        ctx.beginPath();
+        ctx.arc(x, y, dotRadius, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        // Viền nhẹ cho chấm (tùy chọn để tách nền)
+        ctx.strokeStyle = COLORS.bg;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+    }
+
+    // Hàm vẽ đường kẻ dọc mờ
+    function drawVerticalLine(x) {
+        ctx.beginPath();
+        ctx.moveTo(x, 40);
+        ctx.lineTo(x, 320);
+        ctx.strokeStyle = COLORS.line;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+    }
+
+    // --- HÀM RENDER CHÍNH ---
+    function renderChart() {
+        // Xóa canvas cũ (nếu vẽ lại)
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // 1. Vẽ các cột dữ liệu
+        data.forEach((item, index) => {
+            const x = startX + (index * gapX);
+
+            // Vẽ đường kẻ dọc nền
+            drawVerticalLine(x);
+
+            // Tính toán vị trí Y
+            // Pill trên: Tính từ tâm (centerY) đi ngược lên trên
+            const topY = centerY - item.topH - 15; // -15 là khoảng cách hở ra khỏi tâm
+            drawPill(x, topY, pillWidth, item.topH, item.topC, item.top);
+
+            // Pill dưới: Tính từ tâm (centerY) đi xuống dưới
+            const botY = centerY + 15; // +15 là khoảng cách hở
+            drawPill(x, botY, pillWidth, item.botH, item.botC, item.bot);
+
+            // Vẽ chấm tròn ở giữa
+            drawDot(x, centerY, item.dot);
+        });
+
+        // 2. Vẽ Chú thích (Legend) ở dưới cùng
+        const legendY = 360;
+        
+        drawLegendItem(60, legendY, COLORS.white, "Resources");
+        drawLegendItem(180, legendY, COLORS.green, "Valid");
+        drawLegendItem(280, legendY, COLORS.orange, "Invalid");
+
+        // Vẽ Tổng cộng
+        ctx.fillStyle = COLORS.legendText;
+        ctx.textAlign = "right";
+        ctx.font = "bold 16px Arial";
+        ctx.fillText("Total: 1,012", 750, legendY);
+    }
+
+    // Hàm vẽ một mục chú thích
+    function drawLegendItem(x, y, color, label) {
+        // Vẽ chấm tròn nhỏ
+        ctx.beginPath();
+        ctx.arc(x, y, 6, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        
+        // Vẽ chữ
+        ctx.fillStyle = COLORS.legendText;
+        ctx.textAlign = "left";
+        ctx.font = "14px Arial";
+        ctx.fillText(label, x + 15, y);
+    }
+
+    // Kích hoạt vẽ
+    renderChart();
+
+</script>
+
+</body>
+</html>

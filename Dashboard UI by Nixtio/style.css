@@ -175,6 +175,7 @@ body {
 
 /* Phần nội dung chính */
 .content {
+	margin: 0 10px;
 	flex: 1;
 	display: grid;
 	gap: 20px; /* Khoảng cách giữa các ô */
@@ -204,12 +205,12 @@ body {
 
 .content-items {
 	background-color: #1f1f1f;
-	border-radius: 50px;
+	border-radius: 30px;
 	overflow: hidden;
 }
 
 .item-header {
-	padding: 40px;
+	padding: 30px;
 	font-size: 18px;
 }
 .item-header img {
@@ -310,4 +311,11 @@ body {
 /* Hiệu ứng hover cho vui mắt */
 .dot:hover {
 	transform: scale(1.5);
+}
+
+
+/* Biểu đồ thanh */
+.bar-chart {
+	height: 100%;
+	padding: 15px 30px;
 }
