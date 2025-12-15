@@ -165,6 +165,16 @@ function renderBarChart() {
 	Object.keys(typesColor).forEach((item, index) => {
 		drawLegendItem(6 + legendGap * index, legendY, typesColor[item], item);
 	});
+
+	// Vẽ Tổng cộng
+	ctx.fillStyle = "#fff"; // Màu phần tổng cộng
+	ctx.textAlign = "right";
+	ctx.font = "bold 16px Arial";
+	ctx.fillText(
+		`Total: ${barChartData.reduce((partialSum, current) => partialSum + current.first + current.second, 0)}`,
+		barChartCanvas.width,
+		legendY
+	);
 }
 
 renderBarChart();
