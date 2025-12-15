@@ -97,8 +97,22 @@ function drawVerticalLine(x, y, lineLength) {
 	ctx.stroke();
 }
 
+function drawLegendItem(x, y, color, label) {
+	// Vẽ chấm tròn nhỏ
+	ctx.beginPath();
+	ctx.arc(x, y, 6, 0, Math.PI * 2);
+	ctx.fillStyle = color;
+	ctx.fill();
+
+	// Vẽ chữ
+	ctx.fillStyle = "#fff"; // Màu chữ của chú thích
+	ctx.textAlign = "left";
+	ctx.font = "14px Roboto";
+	ctx.fillText(label, x + 15, y);
+}
+
 function renderBarChart() {
-	// Xóa canvas cũ (nếu vẽ lại)
+	// Thay đổi độ dài phù hợp với màn hình
 	barChartCanvas.width =
 		barChartContainer.clientWidth -
 		parseFloat(window.getComputedStyle(barChartContainer).paddingLeft) -
@@ -110,15 +124,18 @@ function renderBarChart() {
 	const pillsGap = (barChartCanvas.width * 0.6) / (barChartData.length - 1); // Khoảng cách giữa các cột (đơn vị %)
 	// Công thức tính độ rộng:
 	// Độ rộng cột = (độ rộng khung - độ lớn của tổng các khoảng cách) / số cột
-	const pillWidth = (barChartCanvas.clientWidth - pillsGap * (barChartData.length - 1)) / barChartData.length;
+	const pillWidth = (barChartCanvas.width - pillsGap * (barChartData.length - 1)) / barChartData.length;
 
-	const lineLength = barChartContainer.clientHeight * 0.7;
+	const chartRatio = 0.8; // Tỉ lệ giữa biểu đồ và chú thích (ở đây biểu đồ chiếm 70% chiều dài khung)
+	const lineLength = barChartCanvas.height * chartRatio;
 	const dotRadius = 5;
 	const dotPadding = 10;
-	const pillLength = lineLength * 0.7;
+	const pillLength = lineLength * chartRatio;
 
+	// Khoảng ngẫu nhiên chấp nhận được để các cột có thể chênh nhau về vị trí theo chiều dọc
 	const randomTopMarginRange = 30;
 
+	// Vẽ các cột biểu đồ
 	barChartData.forEach((item, index) => {
 		const totalValue = item.first + item.second;
 
@@ -140,6 +157,13 @@ function renderBarChart() {
 
 		// Vẽ chấm tròn ở giữa
 		drawDot(x, topY + topHeight + dotRadius + dotPadding, dotRadius, typesColor[item.type] ?? "#fff");
+	});
+
+	// Vẽ chú thích
+	const legendY = barChartCanvas.height * ((1 - chartRatio) / 1.5 + chartRatio);
+	const legendGap = 80;
+	Object.keys(typesColor).forEach((item, index) => {
+		drawLegendItem(6 + legendGap * index, legendY, typesColor[item], item);
 	});
 }
 

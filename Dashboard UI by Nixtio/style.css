@@ -189,7 +189,7 @@ body {
 	/* 3 cột: 2 cột đầu bằng nhau, cột cuối rộng hơn một chút (tỷ lệ ước lượng) */
 	grid-template-columns: 1fr 1fr 1.3fr;
 	/* 2 hàng: Hàng dưới cao hơn hàng trên một chút */
-	grid-template-rows: 0.8fr 1fr;
+	grid-template-rows: auto 1fr;
 
 	/* BẢN ĐỒ VỊ TRÍ (QUAN TRỌNG NHẤT) */
 	grid-template-areas:
