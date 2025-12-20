@@ -7,37 +7,44 @@ function getRandomInt(min, max) {
 // Biểu đồ chấm
 const dotsChartContainer = document.querySelector(".dot-chart-container");
 
-// 1. Dữ liệu giả lập (Số lượng chấm trong mỗi cột)
-const dotsNumber = Math.ceil(dotsChartContainer.clientWidth / 18);
-const dotsData = [];
-for (let i = 0; i < dotsNumber; i++) {
-	// Không để liên tiếp 2 cột có độ lớn đều là lớn nhất hay bé nhất
-	// Để tạo sự cân bằng cho biều đồ
-	dotsData.push(getRandomInt(3 + (dotsData[dotsData.length - 1] == 3), 6 - (dotsData[dotsData.length - 1] == 5)));
-}
-
-// 2. Hàm lấy màu ngẫu nhiên (để giống hình mẫu)
-function getRandomColor() {
-	const colors = ["green", "orange", "white", "orange", "green"];
-	return colors[getRandomInt(0, colors.length)];
-}
-
-// 3. Vòng lặp tạo giao diện
-dotsData.forEach((count) => {
-	// Tạo cột
-	const colDiv = document.createElement("div");
-	colDiv.className = "col";
-
-	// Tạo các chấm trong cột đó
-	for (let i = 0; i < count; i++) {
-		const dotDiv = document.createElement("div");
-		dotDiv.className = `dot ${getRandomColor()}`;
-		colDiv.appendChild(dotDiv);
+function renderDotChart() {
+	dotsChartContainer.innerHTML = "";
+	// 1. Dữ liệu giả lập (Số lượng chấm trong mỗi cột)
+	const dotsNumber = Math.ceil(dotsChartContainer.clientWidth / 18);
+	const dotsData = [];
+	for (let i = 0; i < dotsNumber; i++) {
+		// Không để liên tiếp 2 cột có độ lớn đều là lớn nhất hay bé nhất
+		// Để tạo sự cân bằng cho biều đồ
+		dotsData.push(
+			getRandomInt(3 + (dotsData[dotsData.length - 1] == 3), 6 - (dotsData[dotsData.length - 1] == 5))
+		);
 	}
 
-	// Gắn cột vào biểu đồ
-	dotsChartContainer.appendChild(colDiv);
-});
+	// 2. Hàm lấy màu ngẫu nhiên (để giống hình mẫu)
+	function getRandomColor() {
+		const colors = ["green", "orange", "white", "orange", "green"];
+		return colors[getRandomInt(0, colors.length)];
+	}
+
+	// 3. Vòng lặp tạo giao diện
+	dotsData.forEach((count) => {
+		// Tạo cột
+		const colDiv = document.createElement("div");
+		colDiv.className = "col";
+
+		// Tạo các chấm trong cột đó
+		for (let i = 0; i < count; i++) {
+			const dotDiv = document.createElement("div");
+			dotDiv.className = `dot ${getRandomColor()}`;
+			colDiv.appendChild(dotDiv);
+		}
+
+		// Gắn cột vào biểu đồ
+		dotsChartContainer.appendChild(colDiv);
+	});
+}
+
+renderDotChart();
 
 // Biểu đồ thanh
 const barChartCanvas = document.querySelector(".bar-chart");
@@ -112,6 +119,10 @@ function drawLegendItem(x, y, color, label) {
 }
 
 function renderBarChart() {
+	// Reset kích thước canvas về 0 để container co lại đúng kích thước thật trước khi đo
+	barChartCanvas.width = 0;
+	barChartCanvas.height = 0;
+
 	// Thay đổi độ dài phù hợp với màn hình
 	barChartCanvas.width =
 		barChartContainer.clientWidth -
@@ -179,7 +190,10 @@ function renderBarChart() {
 
 renderBarChart();
 
-window.onresize = renderBarChart;
+window.onresize = () => {
+	renderBarChart();
+	renderDotChart();
+};
 
 // Vẽ biểu đồ thanh ngang
 const horizontalBarChartData = [
