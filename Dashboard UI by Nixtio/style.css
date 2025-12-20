@@ -321,8 +321,188 @@ body {
 }
 
 /* Biểu đồ thanh */
-.bar-chart-container {
+.bar-chart-container,
+.horizontal-bar-chart-container {
 	flex: 1;
 	width: 100%;
 	padding: 0 30px;
+}
+
+/* Biểu đồ thanh ngang */
+.horizontal-bar-chart-body {
+	display: grid;
+	grid-template-columns: 60px 1fr; /* Cột ngày rộng 60px, còn lại là Timeline */
+	gap: 10px;
+	height: 88%;
+	margin-bottom: 15px;
+}
+:root {
+	--card-bg: #1a1a1a;
+	--text-color: #ffffff;
+	--line-color: #333;
+	--green: #96e667;
+	--orange: #ff9f43;
+	--white: #ffffff;
+}
+
+/* --- GRID LAYOUT CHO BIỂU ĐỒ --- */
+.chart-body {
+	display: grid;
+	grid-template-columns: 60px 1fr; /* Cột ngày rộng 60px, còn lại là Timeline */
+	gap: 10px;
+	position: relative;
+	margin-top: 20px;
+}
+
+/* Cột ngày tháng bên trái */
+.date-col {
+	text-align: right;
+	color: #888;
+	font-size: 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around; /* Căn đều chiều dọc */
+	padding-right: 15px;
+	height: 100%;
+}
+
+.date-item {
+	height: 50px; /* Chiều cao cố định mỗi hàng */
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+/* Khu vực Timeline bên phải */
+.timeline-area {
+	position: relative;
+	/* Tạo lưới dọc nền */
+	background-image: linear-gradient(to right, var(--line-color) 1px, transparent 1px);
+	background-size: 16.66% 100%; /* Chia làm 6 khoảng (0, 5, 10, 15, 20, 25, 30) */
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+/* Hàng chứa các thanh Bar */
+.timeline-row {
+	height: 50px;
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+/* --- 3. STYLE CHO THANH BAR (PILL) --- */
+.bar {
+	position: absolute; /* Quan trọng: Để đặt vị trí theo % */
+	height: 40px;
+	border-radius: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 5px;
+	box-sizing: border-box;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+	transition: transform 0.2s, box-shadow 0.2s;
+	cursor: pointer;
+}
+
+/* Hiệu ứng Hover cực mượt mà Canvas khó làm */
+.bar:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
+	z-index: 10;
+}
+
+/* Icon tròn bên trái */
+.bar-icon {
+	width: 30px;
+	height: 30px;
+	background: white;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	font-size: 12px;
+	color: #000;
+}
+
+/* Số giá trị bên phải */
+.bar-value {
+	font-weight: bold;
+	font-size: 14px;
+	margin-right: 10px;
+}
+
+/* --- 4. TRỤC X VÀ FOOTER --- */
+.x-axis {
+	display: flex;
+	justify-content: space-between;
+	margin-left: 70px; /* Bù lại cột ngày */
+	padding-top: 10px;
+	color: #888;
+	font-size: 12px;
+	grid-column-start: 1;
+	grid-column-end: 3;
+}
+
+.footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 30px;
+	padding-top: 20px;
+	border-top: 1px solid var(--line-color);
+}
+
+.legend {
+	display: flex;
+	gap: 20px;
+}
+
+.legend-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+}
+
+.horizontal-bar-footer {
+	display: flex;
+	justify-content: space-between;
+}
+
+/* .dot {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+} */
+
+/* --- MÀU SẮC RIÊNG --- */
+.bg-green {
+	background-color: var(--green);
+	color: #000;
+}
+.bg-orange {
+	background-color: var(--orange);
+	color: #000;
+}
+.bg-white {
+	background-color: var(--white);
+	color: #000;
+}
+
+.text-green {
+	color: var(--green);
+}
+.text-orange {
+	color: var(--orange);
+}
+.text-white {
+	color: var(--white);
+}
+.text-black {
+	color: #000;
 }
